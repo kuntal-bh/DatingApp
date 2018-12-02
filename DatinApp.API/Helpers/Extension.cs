@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 
 namespace DatinApp.API.Helpers
@@ -8,6 +9,11 @@ namespace DatinApp.API.Helpers
             response.Headers.Add("Application-error",message);
             response.Headers.Add("Access-Control-Expose-Headers","Application-error");
             response.Headers.Add("Access-Control-Allow-Origin","*");
+        }
+
+        public static int CalculateAge(this DateTime dateTime){
+            var age =DateTime.Today.Year- dateTime.Year  ;
+            return age;
         }
     }
 }
