@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatinApp.API.Models;
@@ -30,6 +31,17 @@ namespace DatinApp.API.Data
         {
             var users = await _context.Users.Include(p=>p.Photos).ToListAsync();
             return users;
+        }
+
+        public async Task<Photo> GetMainPhoto(int userId)
+        {
+            return await _context.Photos.Where(u=>u.user.ID ==userId).FirstOrDefaultAsync(p=>p.isMain);
+        }
+
+        public async Task<Photo> GetPhoto(int id)
+        {
+            var photo = await _context.Photos.FirstOrDefaultAsync(x=>x.Id ==id);
+            return photo;
         }
 
         public async Task<User> GetUser(int Id)

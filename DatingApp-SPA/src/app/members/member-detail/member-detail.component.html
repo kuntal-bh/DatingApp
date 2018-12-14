@@ -1,8 +1,12 @@
 <div class="container mt-5">
   <div class="row">
+    <h1> {{user.knownAs}}'s Profile</h1>
+    
+  </div>
+  <div class="row">
     <div class="col-sm-4">
       <div class="card">
-        <img src="{{user.photoUrl}}" class="card-img-top img-thumbnail"alt="{{user.knownAs}}">
+        <img src="{{user.photoUrl || '../../../../../assets/user.png'}}" class="card-img-top img-thumbnail"alt="{{user.knownAs}}">
         <div class="card-body">
           <div>
             <strong>Location</strong>
@@ -14,11 +18,11 @@
           </div>
           <div>
             <strong>Last Active</strong>
-            <p>{{user.lastActive}}</p>
+            <p>{{user.lastActive | timeAgo}}</p>
           </div>
           <div>
             <strong>Member Since:</strong>
-            <p>{{user.created}}</p>
+            <p>{{user.created |date}}</p>
           </div>
         </div>
         <div class="card-footer">
@@ -37,14 +41,14 @@
             <h4>Description</h4>
             <p>{{user.introduction}}</p>
             <h4>Looking For</h4>
-            <p>{{user.lookinFor}}</p>
+            <p>{{user.lookingFor}}</p>
           </tab>
           <tab heading = "Interests">
             <h4>Interests</h4>
-            <p>{{user.interest}}</p>            
+            <p>{{user.interests}}</p>            
           </tab>
           <tab heading = "Photos">            
-            <p>Photos will go here.</p>            
+            <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>          
           </tab>
           <tab heading = "Messages">            
             <p>Messages will go here.</p>            

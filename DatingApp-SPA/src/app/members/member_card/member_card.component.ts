@@ -14,6 +14,7 @@ export class Member_cardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.user.photoUrl);
   }
 
 }

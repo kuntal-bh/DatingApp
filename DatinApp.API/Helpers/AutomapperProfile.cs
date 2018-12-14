@@ -21,6 +21,11 @@ namespace DatinApp.API.Helpers
                 opt.ResolveUsing(src=>src.DateofBirth.CalculateAge());
             });;
             CreateMap<Photo,PhotosDto>();
+            CreateMap<Userforupdatedto,User>();
+            CreateMap<PhotosforCreationdto,Photo>();
+            CreateMap<Photo,PhotoForReturnDto>();
+            CreateMap<UserforRegisterDto,User>();
+            
         }
     }
 }

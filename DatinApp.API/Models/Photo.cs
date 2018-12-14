@@ -14,5 +14,7 @@ namespace DatinApp.API.Models
         public User user { get; set; }
 
         public int UserId { get; set; }
+
+        public string PublicId { get; set; }
     }
 }

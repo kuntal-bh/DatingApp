@@ -1,3 +1,6 @@
+import { PhotoEditComponent } from './members/photo-edit/photo-edit.component';
+import { PreventUnsaved } from './_guard/prevent-unsaved.guard';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
@@ -8,7 +11,7 @@ import { AlertifyService } from './_services/Alertify.service';
 import { AuthService } from './_services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import {RouterModule} from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,6 +27,10 @@ import { MessagesComponent } from './messages/messages.component';
 import { approutes } from './routes';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
+import { FileUploadModule } from 'ng2-file-upload';
+import { BsDatepickerModule } from 'ngx-bootstrap';
+import {TimeAgoPipe} from 'time-ago-pipe';
 export function tokenGetter() {
    return localStorage.getItem('token');
 }
@@ -38,7 +45,10 @@ export function tokenGetter() {
       ListsComponent,
       MessagesComponent,
       Member_cardComponent,
-      MemberDetailComponent
+      MemberDetailComponent,
+      MemberEditComponent,
+      PhotoEditComponent,
+      TimeAgoPipe
    ],
    imports: [
       BrowserModule,
@@ -47,6 +57,9 @@ export function tokenGetter() {
       BsDropdownModule.forRoot(),
       TabsModule.forRoot(),
       NgxGalleryModule,
+      FileUploadModule,
+      ReactiveFormsModule,
+      BsDatepickerModule.forRoot(),
       RouterModule.forRoot(approutes),
       JwtModule.forRoot({
          config : {
@@ -63,7 +76,9 @@ export function tokenGetter() {
       AuthGuard,
       UserService,
       MemberDetailResolver,
-      MemberListResolver
+      MemberListResolver,
+      MemberEditResolver,
+      PreventUnsaved
    ],
    bootstrap: [
       AppComponent

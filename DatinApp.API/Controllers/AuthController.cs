@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatinApp.API.Data;
 using DatinApp.API.Dtos;
 using DatinApp.API.Models;
@@ -18,11 +19,13 @@ namespace DatinApp.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo , IConfiguration config)
+        private readonly IMapper _mapper;
+
+        public AuthController(IAuthRepository repo , IConfiguration config ,IMapper mapper)
         {
             this._repo = repo;
             _config = config;
-
+            _mapper = mapper;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register (UserforRegisterDto userforregisterDto)
@@ -31,14 +34,13 @@ namespace DatinApp.API.Controllers
             if(await _repo.UserExists(userforregisterDto.Username))
             return BadRequest();
 
-            var usertobeCreated = new User
-            {
-                UserName = userforregisterDto.Username 
-            };
+            var usertobeCreated = _mapper.Map<User>(userforregisterDto);
 
             var created = await _repo.Register(usertobeCreated , userforregisterDto.Password);
 
-            return StatusCode(201);
+            var usertoreturn = _mapper.Map<UserForDetaileddto>(created);
+
+            return CreatedAtRoute("GetUser",new {Controller ="User" ,created.ID},usertoreturn);
         }
 
         [HttpPost("login")]
@@ -72,8 +74,11 @@ namespace DatinApp.API.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token  = tokenHandler.CreateToken(tokenDescripter); 
 
+            var userDto = _mapper.Map<UserForDetaileddto>(userforLog);
+
             return Ok(new{
-                token = tokenHandler.WriteToken(token)
+                token = tokenHandler.WriteToken(token), 
+                userDto
             });
         }
     }

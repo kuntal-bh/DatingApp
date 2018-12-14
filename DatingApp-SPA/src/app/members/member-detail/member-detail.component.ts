@@ -34,7 +34,20 @@ export class MemberDetailComponent implements OnInit {
       }
     ];
 
-    this.galleryImages = [];
+    this.galleryImages = this.getImages();
+  }
+
+  getImages() {
+    const images = [];
+    for (let i = 0; i < this.user.photos.length; i++) {
+      images.push({
+        small : this.user.photos[i].url,
+        medium : this.user.photos[i].url,
+        big : this.user.photos[i].url,
+        description : this.user.photos[i].description
+      });
+    }
+    return images;
   }
 
 }
