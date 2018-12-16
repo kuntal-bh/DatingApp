@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DatinApp.API.Helpers;
 using DatinApp.API.Models;
 
 namespace DatinApp.API.Data
@@ -11,7 +12,7 @@ namespace DatinApp.API.Data
 
          Task<bool> SaveAll();
 
-         Task<IEnumerable<User>> GetAllUsers();
+         Task<PagedList<User>> GetAllUsers(UserParams userparams);
 
          Task<User> GetUser(int Id);
 

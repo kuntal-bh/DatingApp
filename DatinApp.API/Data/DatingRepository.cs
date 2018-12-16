@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DatinApp.API.Helpers;
 using DatinApp.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,11 +28,12 @@ namespace DatinApp.API.Data
             _context.Remove(entities);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<PagedList<User>> GetAllUsers(UserParams userparams)
         {
-            var users = await _context.Users.Include(p=>p.Photos).ToListAsync();
-            return users;
+            var users =  _context.Users.Include(p=>p.Photos);
+            return await PagedList<User>.CreateAsync(users,userparams.PageNumber,userparams.PageSize);
         }
+
 
         public async Task<Photo> GetMainPhoto(int userId)
         {

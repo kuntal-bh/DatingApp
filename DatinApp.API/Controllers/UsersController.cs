@@ -26,10 +26,11 @@ namespace DatinApp.API.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userparams)
         {
-            var users = await _repo.GetAllUsers();
+            var users = await _repo.GetAllUsers(userparams);
             var userstoreturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+            Response.AddPaginationHeader(users.CurrentPage,users.PageSize,users.TotalPages,users.TotalItems);
             return Ok(userstoreturn);
         }
 

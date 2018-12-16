@@ -20,7 +20,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import {  ErrorInteceptorProvider } from './_services/error.interceptor';
 import { BsDropdownModule } from 'ngx-bootstrap' ;
-import { TabsModule } from 'ngx-bootstrap';
+import { TabsModule, PaginationModule  } from 'ngx-bootstrap';
 import { Member_listComponent } from './members/member_list.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -59,6 +59,7 @@ export function tokenGetter() {
       NgxGalleryModule,
       FileUploadModule,
       ReactiveFormsModule,
+      PaginationModule.forRoot(),
       BsDatepickerModule.forRoot(),
       RouterModule.forRoot(approutes),
       JwtModule.forRoot({
