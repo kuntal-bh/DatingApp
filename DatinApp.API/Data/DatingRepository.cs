@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,15 @@ namespace DatinApp.API.Data
 
         public async Task<PagedList<User>> GetAllUsers(UserParams userparams)
         {
-            var users =  _context.Users.Include(p=>p.Photos);
+            var users =  _context.Users.Include(p=>p.Photos).AsQueryable();
+            users = users.Where(x=>x.ID !=userparams.userId);
+            users = users.Where(x=>x.Gender ==userparams.Gender);
+            if(userparams.MinAge !=18 && userparams.MaxAge !=99)
+            {
+                var mindob = DateTime.Now.AddYears(-userparams.MaxAge-1);
+                var maxdob = DateTime.Now.AddYears(userparams.MinAge);
+                users = users.Where(u=>u.DateofBirth >=mindob &&  u.DateofBirth <=maxdob);
+            }
             return await PagedList<User>.CreateAsync(users,userparams.PageNumber,userparams.PageSize);
         }
 

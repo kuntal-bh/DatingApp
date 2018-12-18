@@ -28,6 +28,14 @@ namespace DatinApp.API.Controllers
 
         public async Task<IActionResult> GetUsers([FromQuery]UserParams userparams)
         {
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
+            var userfromRepo = await _repo.GetUser(userId);
+            userparams.userId = userId;
+            if(string.IsNullOrEmpty(userparams.Gender)) {                
+                userparams.Gender = userfromRepo.Gender =="male" ? "female" : "male";
+
+            }
+            
             var users = await _repo.GetAllUsers(userparams);
             var userstoreturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
             Response.AddPaginationHeader(users.CurrentPage,users.PageSize,users.TotalPages,users.TotalItems);

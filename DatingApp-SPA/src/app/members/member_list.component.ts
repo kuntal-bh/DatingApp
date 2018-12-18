@@ -14,6 +14,9 @@ import { UserService } from '../_services/User.service';
 // tslint:disable-next-line:class-name
 export class Member_listComponent implements OnInit {
  users: User[];
+ user: User = JSON.parse(localStorage.getItem('user')) ;
+ userParams: any = {};
+ genderList = [{value: 'male' , display: 'Males'}, {value: 'female' , display: 'Females'}];
  pagination: Pagination;
   constructor(private userService: UserService, private alertifyService
     : AlertifyService, private activated: ActivatedRoute) { }
@@ -22,7 +25,9 @@ export class Member_listComponent implements OnInit {
     this.activated.data.subscribe(data => {
       this.users = data['users'].result;
       this.pagination = data['users'].pagination;
-      console.log(this.users);
+      this.userParams.gender = this.user.gender === 'male' ? 'female' : 'male';
+      this.userParams.minAge = 18;
+      this.userParams.maxAge = 99;
     });
   }
 
@@ -31,8 +36,14 @@ export class Member_listComponent implements OnInit {
     this.loadUsers();
   }
 
+  resetfilters() {
+    this.userParams.gender = this.user.gender === 'male' ? 'female' : 'male';
+      this.userParams.minAge = 18;
+      this.userParams.maxAge = 99;
+      this.loadUsers();
+  }
   loadUsers() {
-  this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsperPage).subscribe
+  this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsperPage, this.userParams).subscribe
   ((res: PaginatedResult<User[]>) => {
    this.users = res.result;
   }, error => {

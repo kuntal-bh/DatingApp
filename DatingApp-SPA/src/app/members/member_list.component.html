@@ -1,4 +1,35 @@
-<div class="container mt-5">
+<div class="text-center mt-3">
+    <h2>Your matches - {{pagination.totalItems}} found</h2>
+  </div>
+<div class="container mt-5">   
+
+    <form class="form-inline" novalidate #form = "ngForm" (ngSubmit) = "loadUsers()">
+        <div class="form-group">
+          <label for="minAge">Age From</label>
+          <input type="number" class="form-control ml-1" style="width: 70px" id="minAge" name="minAge"
+          [(ngModel)] ="userParams.minAge">
+        </div>
+      
+        <div class="form-group px-2">
+          <label for="maxAge">Age To</label>
+          <input type="number" class="form-control ml-1" style="width: 70px" id="maxAge" name="maxAge"
+          [(ngModel)] ="userParams.maxAge">
+        </div>
+      
+        <div class="form-group px-2">
+          <label for="gender">Show: </label>
+          <select class="form-control ml-1" style="width: 130px" id="gender" name="gender" 
+           [(ngModel)] ="userParams.gender">
+            <option *ngFor= "let gendervalue of genderList" [value]="gendervalue.value">
+              {{gendervalue.display}}
+            </option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
+        <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetfilters()">Reset Filter</button>
+      
+      </form>
+      <br>
   <div class="row">
     <div class="col-md-2" *ngFor="let user of users">
      <app-member_card [user]="user"></app-member_card>
@@ -10,7 +41,10 @@
               [itemsPerPage]= "pagination.itemsperPage"
               [(ngModel)] = "pagination.currentPage"
               (pageChanged)="pageChanged($event)"
-            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">          
  
 </pagination>
 </div>
+
+
+  
